@@ -2,7 +2,7 @@ define(function(require, exports, module) {
     "use strict";
 
     // External dependencies.
-    var Backbone = require("backbone");
+    var Backbone = require("Backbone");
     var app = require("app");
     var LandingPageView = require("views/LandingPageView");
     var DicomDictSearchView = require("views/DicomDictSearchView");

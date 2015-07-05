@@ -1,0 +1,43 @@
+<header id="search-header">
+	<div class="container">
+		<div class="row">
+			<h1>Search DICOM Dictionary</h1>
+		</div>
+		<div class="row">
+			<input id="q" class="search-box" name="search-box" type="search" results="5" placeholder="Search by DICOM tag e.g. &#39;(group,element)&#39;, OR &#39;attribute&#39;, OR &#39;description&#39;"
+			value="<%= model.searchString %>" />				
+		</div>
+	</div>
+</header>
+<section id="search-result">
+	<div class="container">
+		<div class="row">
+			<div id="grid-container">
+				<% if (model.showSearch) { %>
+					<table class="table">
+						<thead>
+							<tr>
+								<th width="160"><a>Tag<i>(Group, Element)</i></a></th>
+								<th><a>Attribute</a></th>
+								<th width="20"><a>VR</a></th>
+								<th width="80"><a>Type</a></th>
+								<th width="50"><a>VM</a></th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- dicomTagListView-template will be rendered here -->
+						</tbody>
+					</table>
+					<% } %>
+
+					<% if (model.showLoading) { %>
+						<div class="spinner" >
+							<div class="bounce1"></div>
+							<div class="bounce2"></div>
+							<div class="bounce3"></div>
+						</div>
+					<% } %>
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,19 +1,21 @@
 require.config({
     paths: {
-        "jquery": "bower_components/jquery/dist/jquery.min",
-        "foundation": "bower_components/foundation/js/foundation",
-        "underscore": "bower_components/underscore/underscore-min",
-        "backbone": "bower_components/backbone/backbone-min"
+        jQuery: "bower_components/jquery/dist/jquery.min",
+        foundation: "bower_components/foundation/js/foundation",
+        Underscore: "bower_components/underscore/underscore-min",
+        Backbone: "bower_components/backbone/backbone-min",
+        text: 'bower_components/requirejs-text/text',
+        templates: 'templates'
     },
     shim: {
-        'jquery': {
+        'jQuery': {
             exports: '$'
         },
-        'backbone': {
-            deps: ['jquery', 'underscore'],
+        'Backbone': {
+            deps: ['jQuery', 'Underscore'],
             exports: 'Backbone',
         },
-        'underscore': {
+        'Underscore': {
             exports: '_'
         }
     },

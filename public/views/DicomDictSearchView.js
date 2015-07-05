@@ -2,13 +2,14 @@ define(function(require, exports, module) {
 
     // External dependencies.
     var app = require("app");
-    var Backbone = require("backbone");
+    var Backbone = require("Backbone");
     var DicomDictSearchViewModel = require("models/DicomDictSearchViewModel");
     var DicomTagModel = require("models/DicomTagModel");
     var DicomDictSearchListView = require("views/DicomDictSearchListView");
+    var DicomDictSearchViewTemplate = require("text!templates/dicomDictSearchView.html");
 
     var DicomDictSearchView = Backbone.View.extend({
-        template: _.template($("#searchDicomDictionary-template").html()),
+        template: _.template(DicomDictSearchViewTemplate),
         isSearchOn: false,
         searchString: '',
 
@@ -81,7 +82,7 @@ define(function(require, exports, module) {
             var that = this;
 
             $.ajax({
-                url: 'http://localhost:3000/lookup',
+                url: 'http://localhost:3000/search',
                 crossOrigin: true,
                 dataType: 'json',
                 success: function(resp) {

@@ -1,5 +1,5 @@
 // Kick off the application.
-require(["app", "router", "backbone"], function(app, Router, Backbone ) {
+require(["app", "router", "Backbone"], function(app, Router, Backbone ) {
 
     // bootstrap foundation
     //jQuery(document).foundation();

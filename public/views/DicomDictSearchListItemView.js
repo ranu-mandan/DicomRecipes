@@ -1,11 +1,12 @@
 define(function(require, exports, module) {
 
     // External dependencies.
-    var Backbone = require("backbone");
+    var Backbone = require("Backbone");
     var app = require("app");
+    var dicomTagViewTemplate = require("text!templates/dicomTagItemView.html");
 
     var DicomDictSearchListItemView = Backbone.View.extend({
-        template: _.template($("#dicomTagItemView-template").html()),
+        template: _.template(dicomTagViewTemplate),
         tagName: 'tr',
 
         initialize: function() {

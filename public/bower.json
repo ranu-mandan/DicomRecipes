@@ -1,0 +1,32 @@
+{
+  "name": "DICOM Recipes",
+  "version": "1.0.0",
+  "authors": [
+    "Ranu <ranu.mandan@gmail.com>"
+  ],
+  "description": "Dicom Web Utility App",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "keywords": [
+    "DICOM"
+  ],
+  "license": "MIT",
+  "homepage": "http://dicomrecipes.net",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "animate.css": "~3.3.0",
+    "backbone": "~1.2.0",
+    "foundation": "~5.5.2",
+    "normalize.css": "~3.0.3",
+    "requirejs": "~2.1.18",
+    "requirejs-text": "~2.0.14"
+  }
+}

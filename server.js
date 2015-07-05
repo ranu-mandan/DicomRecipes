@@ -8,7 +8,9 @@ var app = express();
 // 	  next();
 // });
 
+//app.use(express.static(__dirname + '/public'));
 app.use(express.static('public'));
+
 
 // app.get('/', function(request, response){
 // 	//response.send('Hello world');
@@ -16,7 +18,7 @@ app.use(express.static('public'));
 // 	response.end();
 // });
 
-app.get('/lookup', function(request, response) {
+app.get('/search', function(request, response) {
 
     var Tags = [{
         'tag': '(0000,0000)',

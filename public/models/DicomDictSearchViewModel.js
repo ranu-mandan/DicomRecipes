@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
 
-	var Backbone = require("backbone");
+	var Backbone = require("Backbone");
 
     var DicomDictSearchViewModel = Backbone.Model.extend({
         defaults: {

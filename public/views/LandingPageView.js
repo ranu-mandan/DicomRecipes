@@ -1,11 +1,12 @@
 define(function(require, exports, module) {
 
     // External dependencies.
-    var Backbone = require("backbone");
+    var Backbone = require("Backbone");
     var app = require("app");
+    var landingViewTemplate = require('text!templates/landingPageView.html');
 
     var LandingPageView = Backbone.View.extend({
-        template: _.template($("#landingPage-template").html()),
+        template: _.template(landingViewTemplate),
         tagName: 'div',
 
         initialize: function() {

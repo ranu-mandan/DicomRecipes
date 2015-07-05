@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
 
     // External dependencies.
-    var Backbone = require("backbone");
+    var Backbone = require("Backbone");
     var app = require("app");
     var DicomDictSearchListItemView = require("views/DicomDictSearchListItemView");
 
