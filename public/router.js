@@ -5,6 +5,7 @@ define(function(require, exports, module) {
     var Backbone = require("Backbone");
     var app = require("app");
     var LandingPageView = require("views/LandingPageView");
+    var DicomDictSearchViewModel = require("models/DicomDictSearchViewModel");
     var DicomDictSearchView = require("views/DicomDictSearchView");
 
     // Defining the application router.
@@ -22,7 +23,7 @@ define(function(require, exports, module) {
         home: function() {
             console.log('route -> home');
 
-            if (this.landingPage){
+            if (this.landingPage) {
                 this.landingPage.remove();
             }
 
@@ -35,14 +36,19 @@ define(function(require, exports, module) {
         search: function(param) {
             console.log(this.current(), 'route -> search');
 
-            if (this.searchPage){
+            if (this.searchPage) {
                 this.searchPage.remove();
             }
 
-            this.searchPage = new DicomDictSearchView();
+            //if (!this.searchPage) {
+            this.searchModel = new DicomDictSearchViewModel();
+            this.searchPage = new DicomDictSearchView({
+                model: this.searchModel
+            });
 
             this.$container.empty();
             this.$container.append(this.searchPage.render().el);
+            //}
 
             if (param) {
                 this.searchPage.searchString = param;

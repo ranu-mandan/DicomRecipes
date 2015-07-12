@@ -1,15 +1,57 @@
-define(function(require, exports, module) {
+ define(function(require, exports, module) {
 
-	var Backbone = require("Backbone");
+     var Backbone = require("Backbone");
 
-    var DicomDictSearchViewModel = Backbone.Model.extend({
-        defaults: {
-            showSearch: false,
-            showLoading: false,
-            noResultFoundMessage: 'No Dicom Tags Found',
-            searchString: ''
-        }
-    });
+     var DicomDictSearchViewModel = Backbone.Model.extend({
+         defaults: {
+             showSearch: false,
+             showLoading: false,
+             noResultFoundMessage: 'No Dicom Tags Found',
+             searchString: ''
+         },
 
-    module.exports = DicomDictSearchViewModel;
-});
+         setLoadingState: function(searchString) {
+             this.set('showLoading', true, {
+                 silent: true
+             });
+             this.set('showSearch', false, {
+                 silent: true
+             });
+             this.set('noResultFoundMessage', 'Loading...', {
+                 silent: true
+             });
+
+             if (searchString !== undefined || searchString !== null) {
+                 this.set('searchString', searchString, {
+                     silent: true
+                 });
+             }
+
+             this.trigger('change');
+
+         },
+
+         setSearchState: function() {
+             this.set('showLoading', false, {
+                 silent: true
+             });
+             this.set('showSearch', true, {
+                 silent: true
+             });
+             this.set('noResultFoundMessage', 'Loading...', {
+                 silent: true
+             });
+
+             if (searchString !== undefined || searchString !== null) {
+                 this.set('searchString', searchString, {
+                     silent: true
+                 });
+             }
+
+             this.trigger('change');
+
+         }
+     });
+
+     module.exports = DicomDictSearchViewModel;
+ });

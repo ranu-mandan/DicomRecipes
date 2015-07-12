@@ -12,6 +12,7 @@ define(function(require, exports, module) {
         template: _.template(DicomDictSearchViewTemplate),
         isSearchOn: false,
         searchString: '',
+        searchListView: {},
 
         events: {
             'input .search-box': 'searchDicomDictionary'
@@ -21,24 +22,23 @@ define(function(require, exports, module) {
             _.bindAll(this, 'render');
             //this.listenTo(object, event, [context]);
             this.listenTo(this, 'searchDicomTag', this.searchDicomTag);
+            this.listenTo(this.model, 'change', this.renderWithModel, this);
         },
 
         render: function() {
 
-            var searchModel = new DicomDictSearchViewModel();
+            this.renderWithModel();
 
-            this.renderWithModel(searchModel);
-
+            this.$el.find('h1[id=animated-header]').addClass('animated fadeInDown');
             return this;
         },
 
-        renderWithModel: function(model) {
+        renderWithModel: function() {
 
             var renderedContent = this.template({
-                model: model.toJSON()
+                model: this.model.toJSON()
             });
             this.$el.html(renderedContent);
-            //this.$el.find('input[name=search-box]').focus();
 
             var searchBox = this.$el.find('input[name=search-box]').get(0);
             var elemLen = searchBox.value.length;
@@ -63,21 +63,7 @@ define(function(require, exports, module) {
             //}
             //else{
 
-            var searchModel = new DicomDictSearchViewModel();
-            searchModel.set({
-                showLoading: true
-            });
-            searchModel.set({
-                showSearch: false
-            });
-            searchModel.set({
-                noResultFoundMessage: 'Loading...'
-            });
-            searchModel.set({
-                searchString: searchString
-            });
-
-            this.renderWithModel(searchModel);
+            this.model.setLoadingState(searchString);
 
             var that = this;
 
@@ -88,21 +74,7 @@ define(function(require, exports, module) {
                 success: function(resp) {
                     console.log(resp, 'success');
 
-                    var searchModel = new DicomDictSearchViewModel();
-                    searchModel.set({
-                        showSearch: true
-                    });
-                    searchModel.set({
-                        noResultFoundMessage: ''
-                    });
-                    searchModel.set({
-                        showLoading: false
-                    });
-                    searchModel.set({
-                        searchString: searchString
-                    });
-
-                    that.renderWithModel(searchModel);
+                    that.model.setSearchState();
 
                     var dicomTags = _.map(resp, function(tag) {
                         // initialize DicomTag Model
@@ -131,7 +103,11 @@ define(function(require, exports, module) {
                         return dicomTag;
                     });
 
-                    var searchListView = new DicomDictSearchListView({
+                    if (this.searchListView) {
+                        this.searchListView.remove();
+                    }
+
+                    this.searchListView = new DicomDictSearchListView({
                         collection: dicomTags
                     });
 

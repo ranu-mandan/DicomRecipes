@@ -1,7 +1,7 @@
 <header id="search-header">
 	<div class="container">
 		<div class="row">
-			<h1>Search DICOM Dictionary</h1>
+			<h1 id="animated-header">Search DICOM Dictionary</h1>
 		</div>
 		<div class="row">
 			<input id="q" class="search-box" name="search-box" type="search" results="5" placeholder="Search by DICOM tag e.g. &#39;(group,element)&#39;, OR &#39;attribute&#39;, OR &#39;description&#39;"
@@ -28,15 +28,15 @@
 							<!-- dicomTagListView-template will be rendered here -->
 						</tbody>
 					</table>
-					<% } %>
+				<% } %>
 
-					<% if (model.showLoading) { %>
-						<div class="spinner" >
-							<div class="bounce1"></div>
-							<div class="bounce2"></div>
-							<div class="bounce3"></div>
-						</div>
-					<% } %>
+				<% if (model.showLoading) { %>
+					<div class="spinner" >
+						<div class="bounce1"></div>
+						<div class="bounce2"></div>
+						<div class="bounce3"></div>
+					</div>
+				<% } %>
 			</div>
 		</div>
 	</div>
