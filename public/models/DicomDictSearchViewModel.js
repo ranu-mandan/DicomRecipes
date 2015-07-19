@@ -21,7 +21,7 @@
                  silent: true
              });
 
-             if (searchString !== undefined || searchString !== null) {
+             if (searchString !== undefined && searchString !== null) {
                  this.set('searchString', searchString, {
                      silent: true
                  });
@@ -31,7 +31,7 @@
 
          },
 
-         setSearchState: function() {
+         setSearchState: function(searchString) {
              this.set('showLoading', false, {
                  silent: true
              });
@@ -42,7 +42,7 @@
                  silent: true
              });
 
-             if (searchString !== undefined || searchString !== null) {
+             if (searchString !== undefined && searchString !== null) {
                  this.set('searchString', searchString, {
                      silent: true
                  });

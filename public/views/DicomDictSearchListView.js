@@ -10,20 +10,44 @@ define(function(require, exports, module) {
 
         initialize: function() {
             _.bindAll(this, 'render');
-            this.render();
+
+            this.subViews = [];
+
+            // create a sub view for every model in the collection
+            _.each(this.collection, function(tag) {
+                this.subViews.push(new DicomDictSearchListItemView({
+                    model: tag
+                }));
+            }, this);
+
         },
 
         render: function() {
 
-            _.each(this.collection, function(tag) {
-                var dicomTagItemView = new DicomDictSearchListItemView({
-                    model: tag
-                });
-                this.$el.find('tbody').append(dicomTagItemView.el);
-            }, this);
+            this.$el.find('tbody').empty();
+
+            var container = document.createDocumentFragment();
+
+            _.each(this.subViews, function(subview) {
+                container.appendChild(subview.render().el)
+            });
+
+            this.$el.find('tbody').append(container);
 
             return this;
+        },
+
+        close: function() {
+            this.remove();
+            this.unbind();
+            
+            _.each(this.subViews, function(subview) {
+                if (childView.close) {
+                    childView.close();
+                }
+            })
         }
+
     });
 
     module.exports = DicomDictSearchListView;

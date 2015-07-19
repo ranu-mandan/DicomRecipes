@@ -23,36 +23,26 @@ define(function(require, exports, module) {
         home: function() {
             console.log('route -> home');
 
-            if (this.landingPage) {
-                this.landingPage.remove();
-            }
+            var landingPage = new LandingPageView();
 
-            this.landingPage = new LandingPageView();
-
-            this.$container.empty();
-            this.$container.append(this.landingPage.render().el);
+            this.changeView(landingPage);
         },
 
         search: function(param) {
             console.log(this.current(), 'route -> search');
 
-            if (this.searchPage) {
-                this.searchPage.remove();
-            }
-
             //if (!this.searchPage) {
-            this.searchModel = new DicomDictSearchViewModel();
-            this.searchPage = new DicomDictSearchView({
-                model: this.searchModel
+            var searchModel = new DicomDictSearchViewModel();
+            var searchPage = new DicomDictSearchView({
+                model: searchModel
             });
-
-            this.$container.empty();
-            this.$container.append(this.searchPage.render().el);
             //}
 
+            this.changeView(searchPage);
+
             if (param) {
-                this.searchPage.searchString = param;
-                this.searchPage.trigger('searchDicomTag', param);
+                this.currentView.searchString = param;
+                this.currentView.trigger('searchDicomTag', param);
             }
 
         },
@@ -82,8 +72,21 @@ define(function(require, exports, module) {
                 fragment: fragment,
                 params: params
             };
-        }
+        },
 
+        changeView: function(view) {
+            if (this.currentView) {
+                if (this.currentView == view) {
+                    return;
+                }
+                this.currentView.close();
+            }
+
+            this.$container.empty();
+            this.$container.append(view.render().el);
+
+            this.currentView = view;
+        }
     });
 
     module.exports = Router;

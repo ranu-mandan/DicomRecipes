@@ -104,12 +104,12 @@ define(function(require, exports, module) {
                     });
 
                     if (this.searchListView) {
-                        this.searchListView.remove();
+                        this.searchListView.close();
                     }
 
                     this.searchListView = new DicomDictSearchListView({
                         collection: dicomTags
-                    });
+                    }).render();
 
                     if (that.searchString == searchString) {
                         that.isSearchOn = false;

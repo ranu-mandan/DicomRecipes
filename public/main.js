@@ -1,8 +1,14 @@
 // Kick off the application.
-require(["app", "router", "Backbone"], function(app, Router, Backbone ) {
+require(["app", "router", "Backbone"], function(app, Router, Backbone) {
 
     // bootstrap foundation
     //jQuery(document).foundation();
+
+    // let each view have its close method
+    Backbone.View.prototype.close = function() {
+        this.remove();
+        this.unbind();
+    };
 
     // Define your master router on the application namespace and trigger all
     // navigation from this instance.
