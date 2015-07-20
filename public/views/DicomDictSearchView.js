@@ -5,6 +5,7 @@ define(function(require, exports, module) {
     var Backbone = require("Backbone");
     var DicomDictSearchViewModel = require("models/DicomDictSearchViewModel");
     var DicomTagModel = require("models/DicomTagModel");
+    var DicomTags = require("collections/DicomTags");
     var DicomDictSearchListView = require("views/DicomDictSearchListView");
     var DicomDictSearchViewTemplate = require("text!templates/dicomDictSearchView.html");
 
@@ -12,7 +13,6 @@ define(function(require, exports, module) {
         template: _.template(DicomDictSearchViewTemplate),
         isSearchOn: false,
         searchString: '',
-        searchListView: {},
 
         events: {
             'input .search-box': 'searchDicomDictionary'
@@ -23,6 +23,24 @@ define(function(require, exports, module) {
             //this.listenTo(object, event, [context]);
             this.listenTo(this, 'searchDicomTag', this.searchDicomTag);
             this.listenTo(this.model, 'change', this.renderWithModel, this);
+        },
+
+        initializeSearchListView: function() {
+
+            if (!this.dicomTags) {
+                this.dicomTags = new DicomTags([]);
+            }
+
+            if (!this.searchListView) {
+                this.searchListView = new DicomDictSearchListView({
+                    collection: this.dicomTags
+                });
+            }
+
+            var element = this.$el.find('#grid-container').find('tbody');
+            if (element.length > 0) {
+                this.searchListView.setElement(element);
+            }
         },
 
         render: function() {
@@ -46,22 +64,14 @@ define(function(require, exports, module) {
             searchBox.selectionEnd = elemLen;
             searchBox.focus();
 
+            this.initializeSearchListView();
+
             return this;
         },
-
-        //dataType: 'jsonp',
-        //jsonp: "callback",
-        //crossDomain : true,
 
         searchDicomTag: function(searchString) {
 
             this.isSearchOn = true;
-
-            //if(searchString == ''){
-            //  var renderedContent = this.template(model);
-            //  $(this.el).html(renderedContent);
-            //}
-            //else{
 
             this.model.setLoadingState(searchString);
 
@@ -76,40 +86,23 @@ define(function(require, exports, module) {
 
                     that.model.setSearchState();
 
-                    var dicomTags = _.map(resp, function(tag) {
+                    var dicomTags = _.map(resp, function(item) {
                         // initialize DicomTag Model
 
-                        var dicomTag = new DicomTagModel();
-                        dicomTag.set({
-                            tag: tag.tag
-                        });
-                        dicomTag.set({
-                            name: tag.name
-                        });
-                        dicomTag.set({
-                            description: 'Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum' +
-                                'Lorem Ipsum.Lorem Ipsum.Lorem Ipsum.Lorem Ipsum'
-                        });
-                        dicomTag.set({
-                            vr: tag.vr
-                        });
-                        dicomTag.set({
-                            type: 'Type 2'
-                        });
-                        dicomTag.set({
-                            vm: tag.vm
+                        var dicomTag = new DicomTagModel({
+                            tag: item.tag,
+                            name: item.name,
+                            desc: item.desc,
+                            vr: item.vr,
+                            vm: item.vm,
+                            type: item.type
                         });
 
                         return dicomTag;
                     });
 
-                    if (this.searchListView) {
-                        this.searchListView.close();
-                    }
-
-                    this.searchListView = new DicomDictSearchListView({
-                        collection: dicomTags
-                    }).render();
+                    // reset the collection
+                    that.dicomTags.reset(dicomTags);
 
                     if (that.searchString == searchString) {
                         that.isSearchOn = false;
@@ -118,6 +111,7 @@ define(function(require, exports, module) {
                     }
 
                 },
+
                 error: function(req, status, err) {
                     console.log('something went wrong', status, err);
                     that.isSearchOn = false;

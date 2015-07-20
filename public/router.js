@@ -31,14 +31,14 @@ define(function(require, exports, module) {
         search: function(param) {
             console.log(this.current(), 'route -> search');
 
-            //if (!this.searchPage) {
-            var searchModel = new DicomDictSearchViewModel();
-            var searchPage = new DicomDictSearchView({
-                model: searchModel
-            });
-            //}
+            if (!this.searchPage) {
+                var searchModel = new DicomDictSearchViewModel();
+                this.searchPage = new DicomDictSearchView({
+                    model: searchModel
+                });
+            }
 
-            this.changeView(searchPage);
+            this.changeView(this.searchPage);
 
             if (param) {
                 this.currentView.searchString = param;
