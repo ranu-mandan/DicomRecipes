@@ -49,7 +49,7 @@ define(function(require, exports, module) {
                 if (childView.close) {
                     childView.close();
                 }
-            })
+            });
         }
 
     });
